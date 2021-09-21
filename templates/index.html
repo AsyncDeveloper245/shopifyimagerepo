@@ -17,10 +17,18 @@
   <body>
     <div class="container-fluid">
       <div class="px-lg-5">
-        <!-- For demo purpose -->
         <div class="row py-5">
           <div class="col-lg-12 mx-auto">
             <div class="text-white p-5 shadow-sm rounded banner">
+              <div style="font-size: 2em">
+                {% if user.is_authenticated %}
+                <a href="{% url 'account_logout'%}">Logout</a>
+
+                {% else %}
+                <a href="{% url 'account_login'%}">Login</a> |
+                <a href="{% url 'account_signup'%}">Register</a>
+                {% endif %}
+              </div>
               <h1 class="display-4">Quick Photo sharing webapp</h1>
               <p class="lead">photogallery snippet.</p>
               <p class="lead">
@@ -34,11 +42,12 @@
             </div>
           </div>
         </div>
-        <!-- End -->
+        {% if user.is_authenticated %}
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %} {{ form.as_p }}
           <button type="submit">Upload</button>
         </form>
+        {% endif %}
         <div class="row">
           <!-- Gallery item -->
           <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
