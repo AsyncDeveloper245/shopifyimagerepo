@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .forms import ImageForm
 from .models import Image
 # Create your views here.
@@ -6,24 +6,16 @@ from .models import Image
 
 def home(request,id=None):
     if request.method == 'POST':
-        form  = ImageForm(request.POST,request.FILES, instance=request.user)
+        form  = ImageForm(request.POST,request.FILES)
         if form.is_valid():
-            form = form.cleaned_data
-            image = Image.objects.create(
-                name = form['name'],
-                image = form['image'],
-                description = form['description'],
-            )
-            instance = form.save(commit=False)
-            instance.save()
+            form.save()
     images = Image.objects.all()
     form = ImageForm()
     return render(request,'index.html',{'form':form,'images':images})
 
 def delete(request,id):
-    if request.method == 'POST':
-        image = Image.objects.get(pk=id)
-        image.delete()
+    Image.objects.get(pk=id).delete()
+    return redirect('image:home')
 
 def update(request,id):
     pass

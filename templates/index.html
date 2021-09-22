@@ -43,13 +43,15 @@
           </div>
         </div>
         {% if user.is_authenticated %}
-        <form method="post">
-          {% csrf_token %} {{ form.as_p }}
+        <form method="post" action="" enctype="multipart/form-data">
+          {% csrf_token %} {{form.as_p}}
+
           <button type="submit">Upload</button>
         </form>
         {% endif %}
         <div class="row">
           <!-- Gallery item -->
+
           {% for image in images %}
           <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
             <div class="bg-white rounded shadow-sm">
@@ -81,17 +83,17 @@
                 >
                   <p class="small mb-0">
                     <i class="fa fa-picture-o mr-2"></i
-                    ><span class="font-weight-bold">PNG</span>
+                    ><span class="font-weight-bold">View</span>
                   </p>
                   <div
                     class="
-                      badge badge-primary
+                      badge badge-danger
                       px-3
                       rounded-pill
                       font-weight-normal
                     "
                   >
-                    Delete
+                    <a href="{% url 'image:delete' image.id %}">Delete</a>
                   </div>
                 </div>
               </div>
